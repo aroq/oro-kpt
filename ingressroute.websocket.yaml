@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: websocket
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`hostname`) && Path(`/ws`)
+    kind: Rule
+    services:
+    - name: websocket
+      port: 8080
+  tls:
+    certResolver: le

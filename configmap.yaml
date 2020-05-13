@@ -1,0 +1,226 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: oro-parameters
+data:
+  parameters.configmap.yml: |
+    parameters:
+      database_driver: pdo_pgsql
+      database_host: database_host
+      database_port: 5432
+      database_name: oro
+      database_user: postgres
+      database_password: pass123
+      database_driver_options: []
+
+      mailer_transport: sendmail
+      mailer_host: 127.0.0.1
+      mailer_port: null
+      mailer_encryption: null
+      mailer_user: null
+      mailer_password: null
+
+      websocket_bind_address: 0.0.0.0
+      websocket_bind_port: 8080
+      websocket_frontend_host: '*'
+      websocket_frontend_port: 443
+      websocket_frontend_path: 'ws'
+      websocket_backend_host: '*'
+      websocket_backend_port: 8080
+      websocket_backend_path: ''
+      websocket_backend_transport: tcp
+      websocket_backend_ssl_context_options: {  }
+
+      search_engine_name: orm
+      search_engine_host: 127.0.0.1
+      search_engine_port: null
+      search_engine_index_prefix: oro_search
+      search_engine_username: null
+      search_engine_password: null
+      search_engine_ssl_verification: null
+      search_engine_ssl_cert: null
+      search_engine_ssl_cert_password: null
+      search_engine_ssl_key: null
+      search_engine_ssl_key_password: null
+
+      website_search_engine_index_prefix: oro_website_search
+      web_backend_prefix: /admin
+      # session_handler: session.handler.native_file
+      secret: ThisTokenIsNotSoSecretChangeIt
+      # installed: null
+      # assets_version: d185cfb5
+      assets_version_strategy: time_hash
+      enterprise_licence: null
+      message_queue_transport: dbal
+      message_queue_transport_config: null
+      enable_price_sharding: false
+      deployment_type: null
+
+      session_handler: snc_redis.session.handler
+      redis_dsn_session: redis://hostname:6379/0
+      redis_dsn_cache: redis://hostname:6379/1
+      redis_dsn_doctrine: redis://hostname:6379/2
+      redis_setup: standalone
+
+  nginx.default.conf: |
+    server {
+        server_name server_name;
+        root  /app/public;
+
+        index index.php;
+
+        gzip on;
+        gzip_proxied any;
+        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+        gzip_vary on;
+
+        try_files $uri $uri/ @rewrite;
+
+        location @rewrite {
+            rewrite ^/(.*)$ /index.php/$1;
+        }
+
+        location / {
+            # try to serve file directly, fallback to index.php
+            try_files $uri /index.php$is_args$args;
+        }
+
+        location ~ ^/(index|index_dev|config|install)\.php(/|$) {
+            fastcgi_pass localhost:9000;
+            # or
+            # fastcgi_pass unix:/var/run/php/php7-fpm.sock;
+            fastcgi_split_path_info ^(.+\.php)(/.*)$;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param HTTPS off;
+            fastcgi_buffers 64 64k;
+            fastcgi_buffer_size 128k;
+        }
+
+        location ~* ^[^(\.php)]+\.(jpg|jpeg|gif|png|ico|css|pdf|ppt|txt|bmp|rtf|js)$ {
+            access_log off;
+            expires 1h;
+            add_header Cache-Control public;
+        }
+
+        error_log /var/log/nginx/oro_error.log;
+        access_log /var/log/nginx/oro_access.log;
+    }
+
+  php.ini: |
+    [PHP]
+    engine = On
+    short_open_tag = On
+    asp_tags = Off
+    precision = 14
+    output_buffering = 4096
+    zlib.output_compression = Off
+    implicit_flush = Off
+    unserialize_callback_func =
+    serialize_precision = 17
+    disable_functions = passthru,system,show_source,popen
+    disable_classes =
+    zend.enable_gc = On
+    expose_php = On
+    max_execution_time = 1000
+    max_input_time = 1000
+    memory_limit = -1
+    error_reporting = E_ERROR | E_WARNING | E_PARSE
+    display_errors = Off
+    display_startup_errors = Off
+    log_errors = On
+    log_errors_max_len = 1024
+    ignore_repeated_errors = Off
+    ignore_repeated_source = Off
+    report_memleaks = On
+    track_errors = Off
+    html_errors = On
+    variables_order = "GPCS"
+    request_order = "GP"
+    register_argc_argv = Off
+    auto_globals_jit = On
+    post_max_size = 150M
+    auto_prepend_file =
+    auto_append_file =
+    default_mimetype = "text/html"
+    doc_root =
+    user_dir =
+    enable_dl = Off
+    file_uploads = On
+    upload_max_filesize = 150M
+    max_file_uploads = 20
+    allow_url_fopen = On
+    allow_url_include = Off
+    default_socket_timeout = 60
+    [CLI Server]
+    cli_server.color = On
+    [Date]
+    date.timezone = Europe/Kiev
+    pdo_mysql.cache_size = 2000
+    pdo_mysql.default_socket=
+    [mail function]
+    SMTP = localhost
+    smtp_port = 25
+    mail.add_x_header = On
+    [SQL]
+    sql.safe_mode = Off
+    [MySQL]
+    mysql.allow_local_infile = On
+    mysql.allow_persistent = On
+    mysql.cache_size = 2000
+    mysql.max_persistent = -1
+    mysql.max_links = -1
+    mysql.default_port =
+    mysql.default_socket =
+    mysql.default_host =
+    mysql.default_user =
+    mysql.default_password =
+    mysql.connect_timeout = 60
+    mysql.trace_mode = Off
+    [mysqlnd]
+    mysqlnd.collect_statistics = On
+    mysqlnd.collect_memory_statistics = Off
+    [bcmath]
+    bcmath.scale = 0
+    [Session]
+    session.save_handler = files
+    session.use_strict_mode = 0
+    session.use_cookies = 1
+    session.use_only_cookies = 1
+    session.name = PHPSESSID
+    session.auto_start = 0
+    session.cookie_lifetime = 0
+    session.cookie_path = /
+    session.cookie_domain =
+    session.cookie_httponly =
+    session.serialize_handler = php
+    session.gc_probability = 0
+    session.gc_divisor = 1000
+    session.gc_maxlifetime = 1440
+    session.bug_compat_42 = Off
+    session.bug_compat_warn = Off
+    session.referer_check =
+    session.cache_limiter = nocache
+    session.cache_expire = 180
+    session.use_trans_sid = 0
+    session.hash_function = 0
+    session.hash_bits_per_character = 5
+    url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=fakeentry"
+    [MSSQL]
+    mssql.allow_persistent = On
+    mssql.max_persistent = -1
+    mssql.max_links = -1
+    mssql.min_error_severity = 10
+    mssql.min_message_severity = 10
+    mssql.compatibility_mode = Off
+    mssql.secure_connection = Off
+    [Assertion]
+    tidy.clean_output = Off
+    [ldap]
+    ldap.max_links = -1
+    [opcache]
+    opcache.enable = 1
+    opcache.memory_consumption = 256
+    opcache.max_accelerated_files = 20000
+    realpath_cache_size = 4096K
+    realpath_cache_ttl=600
