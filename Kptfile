@@ -33,3 +33,8 @@ openAPI:
         setter:
           name: install_image
           value: "aroq/php-fpm-oro:7.3.17.5"
+    io.k8s.cli.setters.database_host:
+      x-k8s-cli:
+        setter:
+          name: database_host
+          value: "postgres"
