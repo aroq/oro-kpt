@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.17.10
+        image: nginx:1.17.10 # {"$ref":"#/definitions/io.k8s.cli.setters.nginx_image"}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -24,11 +24,11 @@ spec:
         - name: code
           mountPath: /app
           subPath: html
-        - name: oro-parameters
+        - name: oro-parameters-files
           mountPath: /etc/nginx/conf.d/default.conf
           subPath: nginx.default.conf
       - name: fpm
-        image: aroq/php-fpm-oro:7.3.17.5
+        image: aroq/php-fpm-oro:7.3.17.5 # {"$ref":"#/definitions/io.k8s.cli.setters.fpm_image"}
         imagePullPolicy: Always
         resources:
           limits:
@@ -45,15 +45,15 @@ spec:
           subPath: html
         - name: data-var
           mountPath: /data-var
-        - name: oro-parameters
+        - name: oro-parameters-files
           mountPath: /app/config/parameters.configmap.yml
           subPath: parameters.configmap.yml
-        - name: oro-parameters
+        - name: oro-parameters-files
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
       initContainers:
       - name: copy-code
-        image: code_image
+        image: null # {"$ref":"#/definitions/io.k8s.cli.setters.code_image"}
         imagePullPolicy: Always
         command:
           - sh
@@ -92,7 +92,7 @@ spec:
         - name: data-var
           mountPath: /data-var
       - name: oro-install
-        image: aroq/php-fpm-oro:7.3.17.7
+        image: aroq/php-fpm-oro:7.3.17.7 # {"$ref":"#/definitions/io.k8s.cli.setters.install_image"}
         imagePullPolicy: Always
         resources:
           limits:
@@ -142,11 +142,11 @@ spec:
                 --no-interaction \
                 --language=en \
                 --formatting-code=en \
-                --application-url=application-url \
-                --user-email=atolstikov@smile.fr \
-                --user-firstname=firstname \
-                --user-lastname=lastname \
-                --user-password=pass123
+                --application-url=$(ORO_APP_URL) \
+                --user-email=$(ORO_USER_EMAIL) \
+                --user-firstname=$(ORO_USER_FIRSTNAME) \
+                --user-lastname=$(ORO_USER_LASTNAME) \
+                --user-password$=(ORO_USER_PASSWORD)
 
                 # oro:assets:install divided into subcommands;
                 php -d memory_limit=-1 bin/console -vvv fos:js-routing:dump \
@@ -166,24 +166,52 @@ spec:
 
                 php -d memory_limit=-1 bin/console -vvv cache-clear --env=prod
 
+        env:
+        - name: ORO_APP_URL
+          valueFrom:
+            configMapKeyRef:
+              key: app-url
+              name: oro-parameters
+        - name: ORO_USER_EMAIL
+          valueFrom:
+            configMapKeyRef:
+              key: user-email
+              name: oro-parameters
+        - name: ORO_USER_FIRSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: user-firstname
+              name: oro-parameters
+        - name: ORO_USER_LASTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: user-lastname
+              name: oro-parameters
+        - name: ORO_USER_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: user-password
+              name: oro-parameters
+
         volumeMounts:
         - name: code
           mountPath: /app
           subPath: html
         - name: data-var
           mountPath: /data-var
-        - name: oro-parameters
+        - name: oro-parameters-files
           mountPath: /app/config/parameters.configmap.yml
           subPath: parameters.configmap.yml
-        - name: oro-parameters
+        - name: oro-parameters-files
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
+
       volumes:
         - name: code
           emptyDir: {}
         - name: data-var
           persistentVolumeClaim:
             claimName: data-var
-        - name: oro-parameters
+        - name: oro-parameters-files
           configMap:
-            name: oro-parameters
+            name: oro-parameters-files

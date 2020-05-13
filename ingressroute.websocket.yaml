@@ -4,7 +4,7 @@ metadata:
   name: websocket
 spec:
   entryPoints:
-    - websecure
+  - websecure
   routes:
   - match: Host(`hostname`) && Path(`/ws`)
     kind: Rule

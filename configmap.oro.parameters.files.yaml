@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: oro-parameters
+  name: oro-parameters-files
 data:
   parameters.configmap.yml: |
     parameters:
@@ -61,7 +61,6 @@ data:
       redis_dsn_cache: redis://hostname:6379/1
       redis_dsn_doctrine: redis://hostname:6379/2
       redis_setup: standalone
-
   nginx.default.conf: |
     server {
         server_name server_name;
@@ -106,7 +105,6 @@ data:
         error_log /var/log/nginx/oro_error.log;
         access_log /var/log/nginx/oro_access.log;
     }
-
   php.ini: |
     [PHP]
     engine = On

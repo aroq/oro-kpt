@@ -38,52 +38,49 @@ spec:
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
         command:
-          - "php"
-          - "-d"
-          - "memory_limit=-1"
-          - "bin/console"
-          - "oro:message-queue:consume"
-          - "--env=prod"
-          - "-vvv"
+        - "php"
+        - "-d"
+        - "memory_limit=-1"
+        - "bin/console"
+        - "oro:message-queue:consume"
+        - "--env=prod"
+        - "-vvv"
       initContainers:
       - name: copy-code
         image: code_image
         imagePullPolicy: Always
         command:
-          - sh
-          - "-c"
-          - |
-              set -x
-              set -euo pipefail
-              ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
-              cp -fR /app /srv/html
-
+        - sh
+        - "-c"
+        - |
+          set -x
+          set -euo pipefail
+          ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
+          cp -fR /app /srv/html
         volumeMounts:
         - name: code
           mountPath: /srv
         - name: data-var
           mountPath: /data-var
-
       - name: wait-app
         image: bash
         imagePullPolicy: Always
         command:
-          - /srv/html/kubernetes/scripts/wait-for-it.sh
-          - "nginx:80"
-          - "-t"
-          - "0"
-
+        - /srv/html/kubernetes/scripts/wait-for-it.sh
+        - "nginx:80"
+        - "-t"
+        - "0"
         volumeMounts:
         - name: code
           mountPath: /srv
         - name: data-var
           mountPath: /data-var
       volumes:
-        - name: code
-          emptyDir: {}
-        - name: data-var
-          persistentVolumeClaim:
-            claimName: data-var
-        - name: oro-parameters
-          configMap:
-            name: oro-parameters
+      - name: code
+        emptyDir: {}
+      - name: data-var
+        persistentVolumeClaim:
+          claimName: data-var
+      - name: oro-parameters
+        configMap:
+          name: oro-parameters

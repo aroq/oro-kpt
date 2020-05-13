@@ -4,7 +4,7 @@ metadata:
   name: ingressroute
 spec:
   entryPoints:
-    - websecure
+  - websecure
   routes:
   - match: Host(`hostname`)
     kind: Rule

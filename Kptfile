@@ -6,3 +6,25 @@ packageMetadata:
   tags:
   - kpt.dev/app=oro
   shortDescription: Oro KPT package
+openAPI:
+  definitions:
+    io.k8s.cli.setters.code_image:
+      x-k8s-cli:
+        setter:
+          name: code_image
+          value: "null"
+    io.k8s.cli.setters.nginx_image:
+      x-k8s-cli:
+        setter:
+          name: nginx_image
+          value: "nginx:1.17.10"
+    io.k8s.cli.setters.fpm_image:
+      x-k8s-cli:
+        setter:
+          name: fpm_image
+          value: "aroq/php-fpm-oro:7.3.17.5"
+    io.k8s.cli.setters.install_image:
+      x-k8s-cli:
+        setter:
+          name: install_image
+          value: "aroq/php-fpm-oro:7.3.17.5"
