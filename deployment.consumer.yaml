@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: consumer
-        image: aroq/php-fpm-oro:7.3.17.5
+        image: aroq/php-fpm-oro:7.3.17.5 # {"$ref":"#/definitions/io.k8s.cli.setters.fpm_image"}
         imagePullPolicy: Always
         resources:
           limits:
@@ -47,7 +47,7 @@ spec:
         - "-vvv"
       initContainers:
       - name: copy-code
-        image: code_image
+        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.code_image"}
         imagePullPolicy: Always
         command:
         - sh
