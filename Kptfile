@@ -12,7 +12,7 @@ openAPI:
       x-k8s-cli:
         setter:
           name: code_image
-          value: "null"
+          value: ""
     io.k8s.cli.setters.nginx_image:
       x-k8s-cli:
         setter:
