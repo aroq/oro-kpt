@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: oro-parameters-installed
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
+data:
+  parameters.yml: |
+    parameters:
+      installed: true
+      assets_version: d185cfb5
