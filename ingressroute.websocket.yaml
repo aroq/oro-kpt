@@ -2,6 +2,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: websocket
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 spec:
   entryPoints:
   - websecure

@@ -4,6 +4,7 @@ metadata:
   name: websocket
   labels:
     app: websocket
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 spec:
   replicas: 1
   selector:

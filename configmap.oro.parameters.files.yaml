@@ -2,6 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: oro-parameters-files
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 data:
   parameters.configmap.yml: |
     parameters:
@@ -63,8 +64,8 @@ data:
       redis_setup: standalone
   nginx.default.conf: |
     server {
-        server_name server_name;
-        root  /app/public;
+        server_name _;
+        root /app/public;
 
         index index.php;
 

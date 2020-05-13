@@ -8,6 +8,11 @@ packageMetadata:
   shortDescription: Oro KPT package
 openAPI:
   definitions:
+    io.k8s.cli.setters.namespace:
+      x-k8s-cli:
+        setter:
+          name: namespace
+          value: ""
     io.k8s.cli.setters.code_image:
       x-k8s-cli:
         setter:
