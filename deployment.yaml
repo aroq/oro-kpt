@@ -143,11 +143,11 @@ spec:
                 --no-interaction \
                 --language=en \
                 --formatting-code=en \
-                --application-url=$(ORO_APP_URL) \
-                --user-email=$(ORO_USER_EMAIL) \
-                --user-firstname=$(ORO_USER_FIRSTNAME) \
-                --user-lastname=$(ORO_USER_LASTNAME) \
-                --user-password$=(ORO_USER_PASSWORD)
+                --application-url=${ORO_APP_URL} \
+                --user-email=${ORO_USER_EMAIL} \
+                --user-firstname=${ORO_USER_FIRSTNAME} \
+                --user-lastname=${ORO_USER_LASTNAME} \
+                --user-password=${ORO_USER_PASSWORD}
 
                 # oro:assets:install divided into subcommands;
                 php -d memory_limit=-1 bin/console -vvv fos:js-routing:dump \
