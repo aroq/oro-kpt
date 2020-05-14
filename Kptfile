@@ -43,25 +43,25 @@ openAPI:
         setter:
           name: oro_app_url
           value: url
-    io.k8s.cli.setters.user_email:
+    io.k8s.cli.setters.oro_app_user_email:
       x-k8s-cli:
         setter:
-          name: user_email
+          name: oro_app_user_email
           value: example@example.com
-    io.k8s.cli.setters.user_firstname:
+    io.k8s.cli.setters.oro_app_user_firstname:
       x-k8s-cli:
         setter:
-          name: user_firstname
+          name: oro_app_user_firstname
           value: Firstname
-    io.k8s.cli.setters.user_lastname:
+    io.k8s.cli.setters.oro_app_user_lastname:
       x-k8s-cli:
         setter:
-          name: user_lastname
+          name: oro_app_user_lastname
           value: Lastname
-    io.k8s.cli.setters.user_password:
+    io.k8s.cli.setters.oro_app_user_password:
       x-k8s-cli:
         setter:
-          name: user_password
+          name: oro_app_user_password
           value: password
     io.k8s.cli.setters.database_password:
       x-k8s-cli:

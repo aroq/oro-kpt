@@ -4,8 +4,7 @@ metadata:
   name: oro-install-parameters
   namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 data:
-  # app_url: url # {"$ref":"#/definitions/io.k8s.cli.setters.app_url"}
-  user_email: example@example.com # {"$ref":"#/definitions/io.k8s.cli.setters.user_email"}
-  user_firstname: Firstname # {"$ref":"#/definitions/io.k8s.cli.setters.user_firstname"}
-  user_lastname: Lastname # {"$ref":"#/definitions/io.k8s.cli.setters.user_lastname"}
-  user_password: password # {"$ref":"#/definitions/io.k8s.cli.setters.database_password"}
+  user_email: example@example.com # {"$ref":"#/definitions/io.k8s.cli.setters.oro_app_user_email"}
+  user_firstname: Firstname # {"$ref":"#/definitions/io.k8s.cli.setters.oro_app_user_firstname"}
+  user_lastname: Lastname # {"$ref":"#/definitions/io.k8s.cli.setters.oro_app_user_lastname"}
+  user_password: password # {"$ref":"#/definitions/io.k8s.cli.setters.oro_app_user_password"}
