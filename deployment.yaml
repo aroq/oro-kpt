@@ -164,7 +164,7 @@ spec:
               --no-interaction \
               --env=prod
 
-            php -d memory_limit=-1 bin/console -vvv cache-clear --env=prod
+            php -d memory_limit=-1 bin/console -vvv cache:clear --env=prod
 
           # 82:82 corresponds to www-data:www-data in 'php-fpm' based containers
           chown -R 82:82 /data-var
