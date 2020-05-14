@@ -178,22 +178,22 @@ spec:
         - name: ORO_USER_EMAIL
           valueFrom:
             configMapKeyRef:
-              key: oro_user_email
+              key: user_email
               name: oro-install-parameters
         - name: ORO_USER_FIRSTNAME
           valueFrom:
             configMapKeyRef:
-              key: oro_user_firstname
+              key: user_firstname
               name: oro-install-parameters
         - name: ORO_USER_LASTNAME
           valueFrom:
             configMapKeyRef:
-              key: oro_user_lastname
+              key: user_lastname
               name: oro-install-parameters
         - name: ORO_USER_PASSWORD
           valueFrom:
             configMapKeyRef:
-              key: oro_user_password
+              key: user_password
               name: oro-install-parameters
         volumeMounts:
         - name: code
