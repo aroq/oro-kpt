@@ -54,7 +54,7 @@ spec:
           subPath: php.ini
       initContainers:
       - name: copy-code
-        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.code_image"}
+        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
         imagePullPolicy: Always
         command:
         - sh
@@ -92,7 +92,7 @@ spec:
         - name: data-var
           mountPath: /data-var
       - name: oro-install
-        image: aroq/php-fpm-oro:7.3.17.7 # {"$ref":"#/definitions/io.k8s.cli.setters.install_image"}
+        image: aroq/php-fpm-oro:7.3.17.7 # {"$ref":"#/definitions/io.k8s.cli.setters.oro_install_image"}
         imagePullPolicy: Always
         resources:
           limits:
