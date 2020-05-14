@@ -13,10 +13,10 @@ openAPI:
         setter:
           name: namespace
           value: ""
-    io.k8s.cli.setters.code_image:
+    io.k8s.cli.setters.oro_code_image:
       x-k8s-cli:
         setter:
-          name: code_image
+          name: oro_code_image
           value: ""
     io.k8s.cli.setters.nginx_image:
       x-k8s-cli:
@@ -28,20 +28,20 @@ openAPI:
         setter:
           name: fpm_image
           value: "aroq/php-fpm-oro:7.3.17.5"
-    io.k8s.cli.setters.install_image:
+    io.k8s.cli.setters.oro_install_image:
       x-k8s-cli:
         setter:
-          name: install_image
+          name: oro_install_image
           value: "aroq/php-fpm-oro:7.3.17.7"
     io.k8s.cli.setters.database_host:
       x-k8s-cli:
         setter:
           name: database_host
           value: postgres
-    io.k8s.cli.setters.app-url:
+    io.k8s.cli.setters.oro_app_url:
       x-k8s-cli:
         setter:
-          name: app-url
+          name: oro_app_url
           value: url
     io.k8s.cli.setters.user_email:
       x-k8s-cli:
