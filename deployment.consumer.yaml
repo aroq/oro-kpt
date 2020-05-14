@@ -49,7 +49,7 @@ spec:
         - "-vvv"
       initContainers:
       - name: copy-code
-        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.code_image"}
+        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
         imagePullPolicy: Always
         command:
         - "cp"
