@@ -58,9 +58,9 @@ data:
       deployment_type: null
 
       session_handler: snc_redis.session.handler # {"$ref":"#/definitions/io.k8s.cli.setters.session_handler"}
-      redis_dsn_session: redis://redis-master.oro-poc-services.svc.cluster.local:6379/0 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_session"}
-      redis_dsn_cache: redis://redis-master.oro-poc-services.svc.cluster.local:6379/1 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_cache"}
-      redis_dsn_doctrine: redis://redis-master.oro-poc-services.svc.cluster.local:6379/2 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_doctrine"}
+      redis_dsn_session: redis://redis:6379/0 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_session"}
+      redis_dsn_cache: redis://redis:6379/1 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_cache"}
+      redis_dsn_doctrine: redis://redis:6379/2 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_doctrine"}
       redis_setup: standalone
   nginx.default.conf: |
     server {

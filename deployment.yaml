@@ -25,7 +25,7 @@ spec:
         - name: code
           mountPath: /app
           subPath: html
-        - name: oro-parameters-files
+        - name: config-files
           mountPath: /etc/nginx/conf.d/default.conf
           subPath: nginx.default.conf
       - name: fpm
@@ -46,10 +46,10 @@ spec:
           subPath: html
         - name: data-var
           mountPath: /data-var
-        - name: oro-parameters-files
+        - name: config-files
           mountPath: /app/config/parameters.configmap.yml
           subPath: parameters.configmap.yml
-        - name: oro-parameters-files
+        - name: config-files
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
       initContainers:
@@ -173,38 +173,38 @@ spec:
         - name: ORO_APP_URL
           valueFrom:
             configMapKeyRef:
-              key: app-url
-              name: oro-parameters
+              key: oro_app_url
+              name: oro-config
         - name: ORO_USER_EMAIL
           valueFrom:
             configMapKeyRef:
-              key: user-email
-              name: oro-parameters
+              key: oro_user_email
+              name: oro-install-parameters
         - name: ORO_USER_FIRSTNAME
           valueFrom:
             configMapKeyRef:
-              key: user-firstname
-              name: oro-parameters
+              key: oro_user_firstname
+              name: oro-install-parameters
         - name: ORO_USER_LASTNAME
           valueFrom:
             configMapKeyRef:
-              key: user-lastname
-              name: oro-parameters
+              key: oro_user_lastname
+              name: oro-install-parameters
         - name: ORO_USER_PASSWORD
           valueFrom:
             configMapKeyRef:
-              key: user-password
-              name: oro-parameters
+              key: oro_user_password
+              name: oro-install-parameters
         volumeMounts:
         - name: code
           mountPath: /app
           subPath: html
         - name: data-var
           mountPath: /data-var
-        - name: oro-parameters-files
+        - name: config-files
           mountPath: /app/config/parameters.configmap.yml
           subPath: parameters.configmap.yml
-        - name: oro-parameters-files
+        - name: config-files
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
       volumes:
@@ -213,6 +213,12 @@ spec:
       - name: data-var
         persistentVolumeClaim:
           claimName: data-var
-      - name: oro-parameters-files
+      - name: config-files
         configMap:
-          name: oro-parameters-files
+          name: config-files
+      - name: oro-install-parameters
+        configMap:
+          name: oro-install-parameters
+      - name: oro-config
+        configMap:
+          name: oro-config

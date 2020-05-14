@@ -4,4 +4,4 @@ metadata:
   name: oro-config
   namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 data:
-  oro_app_url: url # {"$ref":"#/definitions/io.k8s.cli.setters.app_url"}
+  oro_app_url: url # {"$ref":"#/definitions/io.k8s.cli.setters.oro_app_url"}
