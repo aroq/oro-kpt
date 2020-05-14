@@ -37,4 +37,74 @@ openAPI:
       x-k8s-cli:
         setter:
           name: database_host
-          value: "postgres"
+          value: postgres
+    io.k8s.cli.setters.app-url:
+      x-k8s-cli:
+        setter:
+          name: app-url
+          value: url
+    io.k8s.cli.setters.user_email:
+      x-k8s-cli:
+        setter:
+          name: user_email
+          value: example@example.com
+    io.k8s.cli.setters.user_firstname:
+      x-k8s-cli:
+        setter:
+          name: user_firstname
+          value: Firstname
+    io.k8s.cli.setters.user_lastname:
+      x-k8s-cli:
+        setter:
+          name: user_lastname
+          value: Lastname
+    io.k8s.cli.setters.user_password:
+      x-k8s-cli:
+        setter:
+          name: user_password
+          value: password
+    io.k8s.cli.setters.database_password:
+      x-k8s-cli:
+        setter:
+          name: database_password
+          value: password
+    io.k8s.cli.setters.database_name:
+      x-k8s-cli:
+        setter:
+          name: database_name
+          value: database_name
+    io.k8s.cli.setters.database_driver:
+      x-k8s-cli:
+        setter:
+          name: database_driver
+          value: pdo_pgsql
+    io.k8s.cli.setters.database_port:
+      x-k8s-cli:
+        setter:
+          name: database_port
+          value: "5432"
+    io.k8s.cli.setters.database_user:
+      x-k8s-cli:
+        setter:
+          name: database_user
+          value: postgres
+    io.k8s.cli.setters.session_handler:
+      x-k8s-cli:
+        setter:
+          name: session_handler
+          value: snc_redis.session.handler
+    io.k8s.cli.setters.redis_dsn_session:
+      x-k8s-cli:
+        setter:
+          name: redis_dsn_session
+          value: redis://redis:6379/0
+    io.k8s.cli.setters.redis_dsn_cache:
+      x-k8s-cli:
+        setter:
+          name: redis_dsn_cache
+          value: redis://redis:6379/1
+    io.k8s.cli.setters.redis_dsn_doctrine:
+      x-k8s-cli:
+        setter:
+          name: redis_dsn_doctrine
+          value: redis://redis:6379/2

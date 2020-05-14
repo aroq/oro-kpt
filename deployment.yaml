@@ -57,36 +57,35 @@ spec:
         image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.code_image"}
         imagePullPolicy: Always
         command:
-          - sh
-          - "-c"
-          - |
-              set -x
-              set -euo pipefail
+        - sh
+        - "-c"
+        - |
+          set -x
+          set -euo pipefail
 
-              rm -fR /app/var/attachment
-              rm -fR /app/var/cache
-              rm -fR /app/var/logs
-              rm -fR /app/var/import_export
-              rm -fR /app/var/sessions
+          rm -fR /app/var/attachment
+          rm -fR /app/var/cache
+          rm -fR /app/var/logs
+          rm -fR /app/var/import_export
+          rm -fR /app/var/sessions
 
-              ln -nfs /data-var/attachment /app/var/attachment
-              ln -nfs /data-var/cache /app/var/cache
-              ln -nfs /data-var/logs /app/var/logs
-              ln -nfs /data-var/import_export /app/var/import_export
-              ln -nfs /data-var/sessions /app/var/sessions
+          ln -nfs /data-var/attachment /app/var/attachment
+          ln -nfs /data-var/cache /app/var/cache
+          ln -nfs /data-var/logs /app/var/logs
+          ln -nfs /data-var/import_export /app/var/import_export
+          ln -nfs /data-var/sessions /app/var/sessions
 
-              mkdir -p /data-var/config
-              if [ ! -f /data-var/config/parameters.yml ]; then
-                cp /app/config/parameters.writeable.yml /data-var/config/parameters.yml
-              fi
-              ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
+          mkdir -p /data-var/config
+          if [ ! -f /data-var/config/parameters.yml ]; then
+            cp /app/config/parameters.writeable.yml /data-var/config/parameters.yml
+          fi
+          ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
 
-              cp -fR /app /srv/html
+          cp -fR /app /srv/html
 
-              # 82:82 corresponds to www-data:www-data in 'php-fpm' based containers
-              chown -R 82:82 /data-var
-              chown -R 82:82 /srv/html
-
+          # 82:82 corresponds to www-data:www-data in 'php-fpm' based containers
+          chown -R 82:82 /data-var
+          chown -R 82:82 /srv/html
         volumeMounts:
         - name: code
           mountPath: /srv
@@ -103,74 +102,73 @@ spec:
             cpu: 0.5
             memory: 2048Mi
         command:
-          - sh
-          - "-c"
-          - |
-              set -x
-              set -euo pipefail
+        - sh
+        - "-c"
+        - |
+          set -x
+          set -euo pipefail
 
-              rm -fR /app/var/attachment
-              rm -fR /app/var/cache
-              rm -fR /app/var/logs
-              rm -fR /app/var/import_export
-              rm -fR /app/var/sessions
+          rm -fR /app/var/attachment
+          rm -fR /app/var/cache
+          rm -fR /app/var/logs
+          rm -fR /app/var/import_export
+          rm -fR /app/var/sessions
 
-              ln -nfs /data-var/attachment /app/var/attachment
-              ln -nfs /data-var/cache /app/var/cache
-              ln -nfs /data-var/logs /app/var/logs
-              ln -nfs /data-var/import_export /app/var/import_export
-              ln -nfs /data-var/sessions /app/var/sessions
-              ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
+          ln -nfs /data-var/attachment /app/var/attachment
+          ln -nfs /data-var/cache /app/var/cache
+          ln -nfs /data-var/logs /app/var/logs
+          ln -nfs /data-var/import_export /app/var/import_export
+          ln -nfs /data-var/sessions /app/var/sessions
+          ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
 
-              # Halt the current script execution if the app is already installed:
-              cat /app/config/parameters.yml | grep 'installed: false' || exit 0;
+          # Halt the current script execution if the app is already installed:
+          cat /app/config/parameters.yml | grep 'installed: false' || exit 0;
 
-              mkdir -p /data-var/attachment
-              mkdir -p /data-var/cache
-              mkdir -p /data-var/logs
-              mkdir -p /data-var/import_export
-              mkdir -p /data-var/sessions
+          mkdir -p /data-var/attachment
+          mkdir -p /data-var/cache
+          mkdir -p /data-var/logs
+          mkdir -p /data-var/import_export
+          mkdir -p /data-var/sessions
 
-              rm -fR /data-var/cache/*
-              php -d memory_limit=-1 -dxcache.cacher=0 bin/console -vvv oro:install \
-                --timeout=30000 \
-                --force-debug \
-                --skip-assets \
-                --skip-translations \
-                --skip-download-translations \
-                --env=prod \
-                --drop-database \
-                --no-interaction \
-                --language=en \
-                --formatting-code=en \
-                --application-url=${ORO_APP_URL} \
-                --user-email=${ORO_USER_EMAIL} \
-                --user-firstname=${ORO_USER_FIRSTNAME} \
-                --user-lastname=${ORO_USER_LASTNAME} \
-                --user-password=${ORO_USER_PASSWORD}
+          rm -fR /data-var/cache/*
+          php -d memory_limit=-1 -dxcache.cacher=0 bin/console -vvv oro:install \
+            --timeout=30000 \
+            --force-debug \
+            --skip-assets \
+            --skip-translations \
+            --skip-download-translations \
+            --env=prod \
+            --drop-database \
+            --no-interaction \
+            --language=en \
+            --formatting-code=en \
+            --application-url=${ORO_APP_URL} \
+            --user-email=${ORO_USER_EMAIL} \
+            --user-firstname=${ORO_USER_FIRSTNAME} \
+            --user-lastname=${ORO_USER_LASTNAME} \
+            --user-password=${ORO_USER_PASSWORD}
 
-                # oro:assets:install divided into subcommands;
-                php -d memory_limit=-1 bin/console -vvv fos:js-routing:dump \
-                  --env=prod
+            # oro:assets:install divided into subcommands;
+            php -d memory_limit=-1 bin/console -vvv fos:js-routing:dump \
+              --env=prod
 
-                php -d memory_limit=-1 bin/console -vvv oro:localization:dump \
-                  --env=prod
+            php -d memory_limit=-1 bin/console -vvv oro:localization:dump \
+              --env=prod
 
-                php -d memory_limit=-1 bin/console -vvv assets:install \
-                  --symlink \
-                  --env=prod
+            php -d memory_limit=-1 bin/console -vvv assets:install \
+              --symlink \
+              --env=prod
 
-                php -d memory_limit=-1 bin/console -vvv oro:assets:build \
-                  --npm-install \
-                  --no-interaction \
-                  --env=prod
+            php -d memory_limit=-1 bin/console -vvv oro:assets:build \
+              --npm-install \
+              --no-interaction \
+              --env=prod
 
-                php -d memory_limit=-1 bin/console -vvv cache-clear --env=prod
+            php -d memory_limit=-1 bin/console -vvv cache-clear --env=prod
 
-              # 82:82 corresponds to www-data:www-data in 'php-fpm' based containers
-              chown -R 82:82 /data-var
-              chown -R 82:82 /srv/html
-
+          # 82:82 corresponds to www-data:www-data in 'php-fpm' based containers
+          chown -R 82:82 /data-var
+          chown -R 82:82 /srv/html
         env:
         - name: ORO_APP_URL
           valueFrom:
@@ -197,7 +195,6 @@ spec:
             configMapKeyRef:
               key: user-password
               name: oro-parameters
-
         volumeMounts:
         - name: code
           mountPath: /app
@@ -210,13 +207,12 @@ spec:
         - name: oro-parameters-files
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
-
       volumes:
-        - name: code
-          emptyDir: {}
-        - name: data-var
-          persistentVolumeClaim:
-            claimName: data-var
-        - name: oro-parameters-files
-          configMap:
-            name: oro-parameters-files
+      - name: code
+        emptyDir: {}
+      - name: data-var
+        persistentVolumeClaim:
+          claimName: data-var
+      - name: oro-parameters-files
+        configMap:
+          name: oro-parameters-files
