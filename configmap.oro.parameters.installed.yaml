@@ -7,4 +7,4 @@ data:
   parameters.yml: |
     parameters:
       installed: true
-      assets_version: d185cfb5
+      assets_version: ~
