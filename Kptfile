@@ -118,3 +118,8 @@ openAPI:
         setter:
           name: traefik_route_websocket
           value: Host(`hostname`) && Path(`/ws`)
+    io.k8s.cli.setters.assets_version:
+      x-k8s-cli:
+        setter:
+          name: assets_version
+          value: "1"

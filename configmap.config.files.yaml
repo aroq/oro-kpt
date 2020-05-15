@@ -48,8 +48,6 @@ data:
       web_backend_prefix: /admin
       # session_handler: session.handler.native_file
       secret: ThisTokenIsNotSoSecretChangeIt
-      # installed: null
-      # assets_version: d185cfb5
       assets_version_strategy: time_hash
       enterprise_licence: null
       message_queue_transport: dbal

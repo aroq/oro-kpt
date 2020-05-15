@@ -6,7 +6,7 @@ metadata:
   labels:
     app: consumer
 spec:
-  replicas: 1
+  replicas: 1 # {"$ref":"#/definitions/io.k8s.cli.setters.assets_version"}
   selector:
     matchLabels:
       app: consumer
