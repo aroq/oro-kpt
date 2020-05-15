@@ -40,6 +40,12 @@ spec:
             memory: 512Mi
         ports:
         - containerPort: 9000
+        env:
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: database_host
+              name: oro-config
         volumeMounts:
         - name: code
           mountPath: /app
@@ -170,6 +176,11 @@ spec:
           chown -R 82:82 /data-var
           chown -R 82:82 /srv/html
         env:
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: database_host
+              name: oro-config
         - name: ORO_APP_URL
           valueFrom:
             configMapKeyRef:
