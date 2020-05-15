@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`hostname`) && Path(`/ws`)
+  - match: Host(`hostname`) && Path(`/ws`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_websocket"}
     kind: Rule
     services:
     - name: websocket

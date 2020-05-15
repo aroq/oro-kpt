@@ -108,3 +108,13 @@ openAPI:
         setter:
           name: redis_dsn_doctrine
           value: redis://redis:6379/2
+    io.k8s.cli.setters.traefik_route_app:
+      x-k8s-cli:
+        setter:
+          name: traefik_route_app
+          value: Host(`hostname`)
+    io.k8s.cli.setters.traefik_route_websocket:
+      x-k8s-cli:
+        setter:
+          name: traefik_route_websocket
+          value: Host(`hostname`) && Path(`/ws`)

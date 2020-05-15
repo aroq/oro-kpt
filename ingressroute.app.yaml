@@ -1,13 +1,13 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute
+  name: app
   namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`hostname`)
+  - match: Host(`hostname`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_app"}
     kind: Rule
     services:
     - name: nginx
