@@ -11,7 +11,6 @@ data:
   database_name: database_name # {"$ref":"#/definitions/io.k8s.cli.setters.database_name"}
   database_user: postgres # {"$ref":"#/definitions/io.k8s.cli.setters.database_user"}
   database_password: password # {"$ref":"#/definitions/io.k8s.cli.setters.database_password"}
-  database_driver_options: [] # {"$ref":"#/definitions/io.k8s.cli.setters.database_driver_options"}
   session_handler: snc_redis.session.handler # {"$ref":"#/definitions/io.k8s.cli.setters.session_handler"}
   redis_dsn_session: redis://redis:6379/0 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_session"}
   redis_dsn_cache: redis://redis:6379/1 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_cache"}
