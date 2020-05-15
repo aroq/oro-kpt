@@ -7,7 +7,7 @@ data:
   oro_app_url: url # {"$ref":"#/definitions/io.k8s.cli.setters.oro_app_url"}
   database_driver: pdo_pgsql # {"$ref":"#/definitions/io.k8s.cli.setters.database_driver"}
   database_host: postgres # {"$ref":"#/definitions/io.k8s.cli.setters.database_host"}
-  database_port: 5432 # {"$ref":"#/definitions/io.k8s.cli.setters.database_port"}
+  database_port: "5432" # {"$ref":"#/definitions/io.k8s.cli.setters.database_port"}
   database_name: database_name # {"$ref":"#/definitions/io.k8s.cli.setters.database_name"}
   database_user: postgres # {"$ref":"#/definitions/io.k8s.cli.setters.database_user"}
   database_password: password # {"$ref":"#/definitions/io.k8s.cli.setters.database_password"}
