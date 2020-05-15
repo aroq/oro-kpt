@@ -6,13 +6,13 @@ metadata:
 data:
   parameters.configmap.yml: |
     parameters:
-      database_driver: pdo_pgsql # {"$ref":"#/definitions/io.k8s.cli.setters.database_driver"}
-      database_host: postgres # {"$ref":"#/definitions/io.k8s.cli.setters.database_host"}
-      database_port: 5432 # {"$ref":"#/definitions/io.k8s.cli.setters.database_port"}
-      database_name: database_name # {"$ref":"#/definitions/io.k8s.cli.setters.database_name"}
-      database_user: postgres # {"$ref":"#/definitions/io.k8s.cli.setters.database_user"}
-      database_password: password # {"$ref":"#/definitions/io.k8s.cli.setters.database_password"}
-      database_driver_options: [] # {"$ref":"#/definitions/io.k8s.cli.setters.database_driver_options"}
+      database_driver: '%env(DATABASE_DRIVER)%'
+      database_host: '%env(DATABASE_HOST)%'
+      database_port: '%env(DATABASE_PORT)%'
+      database_name: '%env(DATABASE_NAME)%'
+      database_user: '%env(DATABASE_USER)%'
+      database_password: '%env(DATABASE_PASSWORD)%'
+      database_driver_options: []
 
       mailer_transport: sendmail
       mailer_host: 127.0.0.1
@@ -57,10 +57,10 @@ data:
       enable_price_sharding: false
       deployment_type: null
 
-      session_handler: snc_redis.session.handler # {"$ref":"#/definitions/io.k8s.cli.setters.session_handler"}
-      redis_dsn_session: redis://redis:6379/0 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_session"}
-      redis_dsn_cache: redis://redis:6379/1 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_cache"}
-      redis_dsn_doctrine: redis://redis:6379/2 # {"$ref":"#/definitions/io.k8s.cli.setters.redis_dsn_doctrine"}
+      session_handler: '%env(SESSION_HANDLER)%'
+      redis_dsn_session: '%env(REDIS_DSN_SESSION)%'
+      redis_dsn_cache: '%env(REDIS_DSN_CACHE)%'
+      redis_dsn_doctrine: '%env(REDIS_DSN_DOCTRINE)%'
       redis_setup: standalone
   nginx.default.conf: |
     server {

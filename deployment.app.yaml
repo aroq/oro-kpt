@@ -46,6 +46,51 @@ spec:
             configMapKeyRef:
               key: database_host
               name: oro-config
+        - name: DATABASE_USER
+          valueFrom:
+            configMapKeyRef:
+              key: database_user
+              name: oro-config
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: database_name
+              name: oro-config
+        - name: DATABASE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              key: database_driver
+              name: oro-config
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: database_port
+              name: oro-config
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: database_password
+              name: oro-config
+        - name: SESSION_HANDLER
+          valueFrom:
+            configMapKeyRef:
+              key: session_handler
+              name: oro-config
+        - name: REDIS_DSN_SESSION
+          valueFrom:
+            configMapKeyRef:
+              key: redis_dsn_session
+              name: oro-config
+        - name: REDIS_DSN_CACHE
+          valueFrom:
+            configMapKeyRef:
+              key: redis_dsn_cache
+              name: oro-config
+        - name: REDIS_DSN_DOCTRINE
+          valueFrom:
+            configMapKeyRef:
+              key: redis_dsn_doctrine
+              name: oro-config
         volumeMounts:
         - name: code
           mountPath: /app
@@ -180,6 +225,51 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: database_host
+              name: oro-config
+        - name: DATABASE_USER
+          valueFrom:
+            configMapKeyRef:
+              key: database_user
+              name: oro-config
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: database_name
+              name: oro-config
+        - name: DATABASE_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              key: database_driver
+              name: oro-config
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: database_port
+              name: oro-config
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: database_password
+              name: oro-config
+        - name: SESSION_HANDLER
+          valueFrom:
+            configMapKeyRef:
+              key: session_handler
+              name: oro-config
+        - name: REDIS_DSN_SESSION
+          valueFrom:
+            configMapKeyRef:
+              key: redis_dsn_session
+              name: oro-config
+        - name: REDIS_DSN_CACHE
+          valueFrom:
+            configMapKeyRef:
+              key: redis_dsn_cache
+              name: oro-config
+        - name: REDIS_DSN_DOCTRINE
+          valueFrom:
+            configMapKeyRef:
+              key: redis_dsn_doctrine
               name: oro-config
         - name: ORO_APP_URL
           valueFrom:
