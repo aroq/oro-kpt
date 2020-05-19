@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: websocket
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
   labels:
     app: websocket
-  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 spec:
-  replicas: 1 # {"$ref":"#/definitions/io.k8s.cli.setters.assets_version"}
+  replicas: 1
   selector:
     matchLabels:
       app: websocket
@@ -15,9 +15,13 @@ spec:
       labels:
         app: websocket
     spec:
+      securityContext:
+        runAsUser: 82
+        runAsGroup: 82
+        fsGroup: 82
       containers:
       - name: websocket
-        image: aroq/php-fpm-oro:7.3.17.5 # {"$ref":"#/definitions/io.k8s.cli.setters.fpm_image"}
+        image: 'image' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
         imagePullPolicy: Always
         resources:
           limits:
@@ -26,68 +30,14 @@ spec:
           requests:
             cpu: 0.25
             memory: 512Mi
-        env:
-        - name: DATABASE_HOST
-          valueFrom:
-            configMapKeyRef:
-              key: database_host
-              name: oro-config
-        - name: DATABASE_USER
-          valueFrom:
-            configMapKeyRef:
-              key: database_user
-              name: oro-config
-        - name: DATABASE_NAME
-          valueFrom:
-            configMapKeyRef:
-              key: database_name
-              name: oro-config
-        - name: DATABASE_DRIVER
-          valueFrom:
-            configMapKeyRef:
-              key: database_driver
-              name: oro-config
-        - name: DATABASE_PORT
-          valueFrom:
-            configMapKeyRef:
-              key: database_port
-              name: oro-config
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              key: database_password
-              name: oro-config
-        - name: SESSION_HANDLER
-          valueFrom:
-            configMapKeyRef:
-              key: session_handler
-              name: oro-config
-        - name: REDIS_DSN_SESSION
-          valueFrom:
-            configMapKeyRef:
-              key: redis_dsn_session
-              name: oro-config
-        - name: REDIS_DSN_CACHE
-          valueFrom:
-            configMapKeyRef:
-              key: redis_dsn_cache
-              name: oro-config
-        - name: REDIS_DSN_DOCTRINE
-          valueFrom:
-            configMapKeyRef:
-              key: redis_dsn_doctrine
-              name: oro-config
         volumeMounts:
-        - name: code
-          mountPath: /app
-          subPath: html
-        - name: oro-parameters
+        - name: config-files
           mountPath: /app/config/parameters.configmap.yml
           subPath: parameters.configmap.yml
         - name: oro-parameters-installed
           mountPath: /app/config/parameters.yml
-          subPath: parameters.yml
-        - name: oro-parameters
+          subPath: parameters.installed.yml
+        - name: config-files
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
         command:
@@ -98,15 +48,24 @@ spec:
         - "gos:websocket:server"
         - "--env=prod"
         - "-vvv"
+        env:
+        - name: ASSETS_VERSION
+          valueFrom:
+            configMapKeyRef:
+              key: assets_version
+              name: oro-config
       initContainers:
       - name: copy-code
-        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
+        image: 'image' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
         imagePullPolicy: Always
         command:
-        - "cp"
-        - "-fR"
-        - "/app"
-        - "/srv/html"
+        - "sh"
+        - "-c"
+        - |
+          set -x
+          mkdir -p /srv/html/kubernetes/scripts/
+          ls -al /app/kubernetes/scripts/wait-for-it.sh
+          cp -fR /app/kubernetes/scripts/wait-for-it.sh /srv/html/kubernetes/scripts/wait-for-it.sh
         volumeMounts:
         - name: code
           mountPath: /srv
@@ -121,14 +80,12 @@ spec:
         volumeMounts:
         - name: code
           mountPath: /srv
-        - name: data-var
-          mountPath: /data-var
       volumes:
       - name: code
         emptyDir: {}
-      - name: oro-parameters
+      - name: config-files
         configMap:
-          name: oro-parameters
+          name: config-files
       - name: oro-parameters-installed
         configMap:
           name: oro-parameters-installed

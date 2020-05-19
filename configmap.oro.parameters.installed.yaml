@@ -7,4 +7,4 @@ data:
   parameters.yml: |
     parameters:
       installed: true
-      assets_version: ~
+      assets_version: '%env(ASSETS_VERSION)%'

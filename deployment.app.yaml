@@ -6,7 +6,7 @@ metadata:
   labels:
     app: app
 spec:
-  replicas: 1 # {"$ref":"#/definitions/io.k8s.cli.setters.assets_version"}
+  replicas: 1
   selector:
     matchLabels:
       app: app
@@ -15,9 +15,15 @@ spec:
       labels:
         app: app
     spec:
+      securityContext:
+        runAsUser: 82
+        runAsGroup: 82
+        fsGroup: 82
       containers:
       - name: nginx
-        image: nginx:1.17.10 # {"$ref":"#/definitions/io.k8s.cli.setters.nginx_image"}
+        image: "nginx:1.17.10" # {"$ref":"#/definitions/io.k8s.cli.setters.nginx_image"}
+        securityContext:
+          runAsUser: 0
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -29,68 +35,18 @@ spec:
           mountPath: /etc/nginx/conf.d/default.conf
           subPath: nginx.default.conf
       - name: fpm
-        image: aroq/php-fpm-oro:7.3.17.5 # {"$ref":"#/definitions/io.k8s.cli.setters.fpm_image"}
+        image: 'image' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
+        # image: aroq/php-fpm-oro:7.3.17.10 # {"$ref":"#/definitions/io.k8s.cli.setters.fpm_image"}
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: 1 # {"$ref":"#/definitions/io.k8s.cli.setters.assets_version"}
+            cpu: 1
             memory: 4096Mi
           requests:
             cpu: 0.25
             memory: 512Mi
         ports:
         - containerPort: 9000
-        # env:
-        # - name: DATABASE_HOST
-        # valueFrom:
-        # configMapKeyRef:
-        # key: database_host
-        # name: oro-config
-        # - name: DATABASE_USER
-        # valueFrom:
-        # configMapKeyRef:
-        # key: database_user
-        # name: oro-config
-        # - name: DATABASE_NAME
-        # valueFrom:
-        # configMapKeyRef:
-        # key: database_name
-        # name: oro-config
-        # - name: DATABASE_DRIVER
-        # valueFrom:
-        # configMapKeyRef:
-        # key: database_driver
-        # name: oro-config
-        # - name: DATABASE_PORT
-        # valueFrom:
-        # configMapKeyRef:
-        # key: database_port
-        # name: oro-config
-        # - name: DATABASE_PASSWORD
-        # valueFrom:
-        # configMapKeyRef:
-        # key: database_password
-        # name: oro-config
-        # - name: SESSION_HANDLER
-        # valueFrom:
-        # configMapKeyRef:
-        # key: session_handler
-        # name: oro-config
-        # - name: REDIS_DSN_SESSION
-        # valueFrom:
-        # configMapKeyRef:
-        # key: redis_dsn_session
-        # name: oro-config
-        # - name: REDIS_DSN_CACHE
-        # valueFrom:
-        # configMapKeyRef:
-        # key: redis_dsn_cache
-        # name: oro-config
-        # - name: REDIS_DSN_DOCTRINE
-        # valueFrom:
-        # configMapKeyRef:
-        # key: redis_dsn_doctrine
-        # name: oro-config
         volumeMounts:
         - name: code
           mountPath: /app
@@ -103,9 +59,65 @@ spec:
         - name: config-files
           mountPath: /usr/local/etc/php/conf.d/default.ini
           subPath: php.ini
+        env:
+        - name: ASSETS_VERSION
+          valueFrom:
+            configMapKeyRef:
+              key: assets_version
+              name: oro-config
+              # - name: DATABASE_HOST
+              # valueFrom:
+              # configMapKeyRef:
+              # key: database_host
+              # name: oro-config
+              # - name: DATABASE_USER
+              # valueFrom:
+              # configMapKeyRef:
+              # key: database_user
+              # name: oro-config
+              # - name: DATABASE_NAME
+              # valueFrom:
+              # configMapKeyRef:
+              # key: database_name
+              # name: oro-config
+              # - name: DATABASE_DRIVER
+              # valueFrom:
+              # configMapKeyRef:
+              # key: database_driver
+              # name: oro-config
+              # - name: DATABASE_PORT
+              # valueFrom:
+              # configMapKeyRef:
+              # key: database_port
+              # name: oro-config
+              # - name: DATABASE_PASSWORD
+              # valueFrom:
+              # configMapKeyRef:
+              # key: database_password
+              # name: oro-config
+              # - name: SESSION_HANDLER
+              # valueFrom:
+              # configMapKeyRef:
+              # key: session_handler
+              # name: oro-config
+              # - name: REDIS_DSN_SESSION
+              # valueFrom:
+              # configMapKeyRef:
+              # key: redis_dsn_session
+              # name: oro-config
+              # - name: REDIS_DSN_CACHE
+              # valueFrom:
+              # configMapKeyRef:
+              # key: redis_dsn_cache
+              # name: oro-config
+              # - name: REDIS_DSN_DOCTRINE
+              # valueFrom:
+              # configMapKeyRef:
+              # key: redis_dsn_doctrine
+              # name: oro-config
       initContainers:
       - name: copy-code
-        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
+        image: 'image' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
         imagePullPolicy: Always
         command:
         - sh
@@ -126,32 +138,33 @@ spec:
           ln -nfs /data-var/import_export /app/var/import_export
           ln -nfs /data-var/sessions /app/var/sessions
 
+          ls -al /data-var
+
           mkdir -p /data-var/config
           if [ ! -f /data-var/config/parameters.yml ]; then
-            cp /app/config/parameters.writeable.yml /data-var/config/parameters.yml
+            cp -f /app/config/parameters.writeable.yml /data-var/config/parameters.yml
           fi
           ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
 
           cp -fR /app /srv/html
 
-          # 82:82 corresponds to www-data:www-data in 'php-fpm' based containers
-          chown -R 82:82 /data-var
           chown -R 82:82 /srv/html
+
         volumeMounts:
         - name: code
           mountPath: /srv
         - name: data-var
           mountPath: /data-var
       - name: oro-install
-        image: aroq/php-fpm-oro:7.3.17.7 # {"$ref":"#/definitions/io.k8s.cli.setters.oro_install_image"}
+        image: 'image' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: 1.5
-            memory: 4096Mi
+            cpu: 1
+            memory: 2048Mi
           requests:
             cpu: 0.5
-            memory: 2048Mi
+            memory: 1024Mi
         command:
         - sh
         - "-c"
@@ -172,105 +185,49 @@ spec:
           ln -nfs /data-var/sessions /app/var/sessions
           ln -nfs /data-var/config/parameters.yml /app/config/parameters.yml
 
-          # Halt the current script execution if the app is already installed:
-          cat /app/config/parameters.yml | grep 'installed: false' || exit 0;
+          # Check if the app is already installed:
+          if cat /app/config/parameters.yml | grep 'installed: false'; then
+            # Install app
+            mkdir -p /data-var/attachment
+            mkdir -p /data-var/cache
+            mkdir -p /data-var/logs
+            mkdir -p /data-var/import_export
+            mkdir -p /data-var/sessions
 
-          mkdir -p /data-var/attachment
-          mkdir -p /data-var/cache
-          mkdir -p /data-var/logs
-          mkdir -p /data-var/import_export
-          mkdir -p /data-var/sessions
+            rm -fR /data-var/cache/*
 
-          rm -fR /data-var/cache/*
-          php -d memory_limit=-1 -dxcache.cacher=0 bin/console -vvv oro:install \
-            --timeout=30000 \
-            --force-debug \
-            --skip-assets \
-            --skip-translations \
-            --skip-download-translations \
-            --env=prod \
-            --drop-database \
-            --no-interaction \
-            --language=en \
-            --formatting-code=en \
-            --application-url=${ORO_APP_URL} \
-            --user-email=${ORO_USER_EMAIL} \
-            --user-firstname=${ORO_USER_FIRSTNAME} \
-            --user-lastname=${ORO_USER_LASTNAME} \
-            --user-password=${ORO_USER_PASSWORD}
-
-            # oro:assets:install divided into subcommands;
-            php -d memory_limit=-1 bin/console -vvv fos:js-routing:dump \
-              --env=prod
-
-            php -d memory_limit=-1 bin/console -vvv oro:localization:dump \
-              --env=prod
-
-            php -d memory_limit=-1 bin/console -vvv assets:install \
-              --symlink \
-              --env=prod
-
-            php -d memory_limit=-1 bin/console -vvv oro:assets:build \
-              --npm-install \
+            php -d memory_limit=-1 -dxcache.cacher=0 bin/console -vvv oro:install \
+              --timeout=30000 \
+              --force-debug \
+              --skip-assets \
+              --skip-translations \
+              --skip-download-translations \
+              --env=prod \
+              --drop-database \
               --no-interaction \
+              --language=en \
+              --formatting-code=en \
+              --application-url=${ORO_APP_URL} \
+              --user-email=${ORO_USER_EMAIL} \
+              --user-firstname=${ORO_USER_FIRSTNAME} \
+              --user-lastname=${ORO_USER_LASTNAME} \
+              --user-password=${ORO_USER_PASSWORD}
+          else
+            # Update app
+            php -d memory_limit=-1 bin/console -vvv oro:platform:update \
+              --timeout=30000 \
+              --force \
+              --force-debug \
+              --no-interaction \
+              --skip-assets \
+              --skip-search-reindexation \
+              --skip-translations \
+              --skip-download-translations \
+              --schedule-search-reindexation \
               --env=prod
-
-            # php -d memory_limit=-1 bin/console -vvv cache:clear --env=prod
-
-          # 82:82 corresponds to www-data:www-data in 'php-fpm' based containers
-          # chown -R 82:82 /data-var
+          fi
         env:
-        - # - name: DATABASE_HOST
-          # valueFrom:
-          # configMapKeyRef:
-          # key: database_host
-          # name: oro-config
-          # - name: DATABASE_USER
-          # valueFrom:
-          # configMapKeyRef:
-          # key: database_user
-          # name: oro-config
-          # - name: DATABASE_NAME
-          # valueFrom:
-          # configMapKeyRef:
-          # key: database_name
-          # name: oro-config
-          # - name: DATABASE_DRIVER
-          # valueFrom:
-          # configMapKeyRef:
-          # key: database_driver
-          # name: oro-config
-          # - name: DATABASE_PORT
-          # valueFrom:
-          # configMapKeyRef:
-          # key: database_port
-          # name: oro-config
-          # - name: DATABASE_PASSWORD
-          # valueFrom:
-          # configMapKeyRef:
-          # key: database_password
-          # name: oro-config
-          # - name: SESSION_HANDLER
-          # valueFrom:
-          # configMapKeyRef:
-          # key: session_handler
-          # name: oro-config
-          # - name: REDIS_DSN_SESSION
-          # valueFrom:
-          # configMapKeyRef:
-          # key: redis_dsn_session
-          # name: oro-config
-          # - name: REDIS_DSN_CACHE
-          # valueFrom:
-          # configMapKeyRef:
-          # key: redis_dsn_cache
-          # name: oro-config
-          # - name: REDIS_DSN_DOCTRINE
-          # valueFrom:
-          # configMapKeyRef:
-          # key: redis_dsn_doctrine
-          # name: oro-config
-          name: ASSETS_VERSION
+        - name: ASSETS_VERSION
           valueFrom:
             configMapKeyRef:
               key: assets_version

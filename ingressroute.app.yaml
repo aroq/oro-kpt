@@ -14,3 +14,31 @@ spec:
       port: 80
   tls:
     certResolver: le
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: app-http
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`hostname`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_app"}
+    kind: Rule
+    services:
+    - name: nginx
+      port: 80
+    middlewares:
+    - name: redirectscheme
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirectscheme
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
