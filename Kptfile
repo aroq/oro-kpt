@@ -123,3 +123,16 @@ openAPI:
         setter:
           name: assets_version
           value: "1"
+    io.k8s.cli.setters.oro_environment:
+      x-k8s-cli:
+        setter:
+          name: oro_environment
+          value: oro_environment
+    io.k8s.cli.substitutions.app_name:
+      x-k8s-cli:
+        substitution:
+          name: app_name
+          pattern: app-${oro_environment}
+          values:
+          - marker: ${oro_environment}
+            ref: '#/definitions/io.k8s.cli.setters.oro_environment'

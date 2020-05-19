@@ -149,7 +149,6 @@ spec:
           cp -fR /app /srv/html
 
           chown -R 82:82 /srv/html
-
         volumeMounts:
         - name: code
           mountPath: /srv
