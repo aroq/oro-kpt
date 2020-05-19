@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app # {"$ref":"#/definitions/io.k8s.cli.substitutions.app_name"}
+  name: app
   namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
   labels:
     app: app
@@ -36,7 +36,6 @@ spec:
           subPath: nginx.default.conf
       - name: fpm
         image: 'image' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
-        # image: aroq/php-fpm-oro:7.3.17.10 # {"$ref":"#/definitions/io.k8s.cli.setters.fpm_image"}
         imagePullPolicy: Always
         resources:
           limits:
