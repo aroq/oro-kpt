@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: app # {"$ref":"#/definitions/io.k8s.cli.substitutions.app_name"}
   namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
   labels:
     app: app
