@@ -7,10 +7,11 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`hostname`) && Path(`/ws`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_websocket"}
+  - match: Host(`demo41.oro-poc.poc.oro.cloud.adyax.net`) && Path(`/ws`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_websocket"}
     kind: Rule
     services:
     - name: websocket
       port: 8080
   tls:
     certResolver: le
+

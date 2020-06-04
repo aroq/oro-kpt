@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`hostname`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_app"}
+  - match: Host(`demo41.oro-poc.poc.oro.cloud.adyax.net`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_app"}
     kind: Rule
     services:
     - name: nginx
@@ -24,7 +24,7 @@ spec:
   entryPoints:
   - web
   routes:
-  - match: Host(`hostname`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_app"}
+  - match: Host(`demo41.oro-poc.poc.oro.cloud.adyax.net`) # {"$ref":"#/definitions/io.k8s.cli.setters.traefik_route_app"}
     kind: Rule
     services:
     - name: nginx
@@ -41,3 +41,4 @@ spec:
   redirectScheme:
     scheme: https
     permanent: true
+

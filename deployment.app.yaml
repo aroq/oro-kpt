@@ -42,7 +42,7 @@ spec:
             cpu: 1
             memory: 4096Mi
           requests:
-            cpu: 0.25
+            cpu: 0.125
             memory: 512Mi
         ports:
         - containerPort: 9000
@@ -282,3 +282,4 @@ spec:
       - name: oro-config
         configMap:
           name: oro-config
+

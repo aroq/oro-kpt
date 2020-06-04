@@ -4,6 +4,10 @@ metadata:
   name: oro-parameters-installed
   namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
 data:
+  parameters.installed.yml: |
+    parameters:
+      installed: true
+      assets_version: '%env(ASSETS_VERSION)%'
   parameters.yml: |
     parameters:
       installed: true
